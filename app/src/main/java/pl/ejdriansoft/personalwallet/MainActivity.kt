@@ -16,6 +16,5 @@ class MainActivity : AppCompatActivity() {
         if (BuildConfig.DEBUG) {
             // TODO: crashliticys
         }
-        api.all()
     }
 }

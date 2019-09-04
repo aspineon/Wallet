@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import pl.ejdriansoft.personalwallet.data.SpendEntity
-import rx.Single
 
 @Dao
 interface SpendDao {
@@ -13,5 +12,5 @@ interface SpendDao {
     fun insert(entity: SpendEntity)
 
     @Query("SELECT * FROM spends")
-    fun getAll(): Single<List<SpendEntity>>
+    fun getAll(): List<SpendEntity>
 }

@@ -1,12 +1,9 @@
 package pl.ejdriansoft.personalwallet.services
 
 import okhttp3.OkHttpClient
-import org.koin.dsl.module
 import pl.ejdriansoft.personalwallet.BuildConfig
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.http.GET
-import rx.Completable
 
 
 fun provideDefaultOkhttpClient(): OkHttpClient {
