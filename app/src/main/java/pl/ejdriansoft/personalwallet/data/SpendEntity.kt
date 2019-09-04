@@ -6,10 +6,9 @@ import java.util.*
 
 @Entity(tableName = "spends")
 data class SpendEntity(
+    @PrimaryKey(autoGenerate = false)
+    val id: String = UUID.randomUUID().toString(),
     val comment: String,
     val category: Int,
-    val date: Date
-) {
-    @PrimaryKey(autoGenerate = true)
-    lateinit var id: UUID
-}
+    val date: String = Date().toString()
+)
