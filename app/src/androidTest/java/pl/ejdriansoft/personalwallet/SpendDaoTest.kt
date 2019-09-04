@@ -7,25 +7,33 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.*
 import org.junit.runner.RunWith
+import org.koin.core.context.loadKoinModules
+import org.koin.core.context.startKoin
+import org.koin.dsl.module
+import org.koin.test.AutoCloseKoinTest
+import org.koin.test.inject
 import pl.ejdriansoft.personalwallet.data.SpendEntity
 import pl.ejdriansoft.personalwallet.db.SpendDao
 import pl.ejdriansoft.personalwallet.db.SpendDatabase
+import pl.ejdriansoft.personalwallet.db.SpendDatabase_Impl
+import pl.ejdriansoft.personalwallet.di.roomTestModule
 
 
 @RunWith(AndroidJUnit4::class)
-class SpendDaoTest {
+class SpendDaoTest : AutoCloseKoinTest() {
 
-    lateinit var db: SpendDatabase
-    lateinit var dao: SpendDao
+    val db by inject<SpendDatabase>()
+    val dao by inject<SpendDao>()
 
-    @Before
+    @BeforeEach
     fun initDependencies() {
         val context = ApplicationProvider.getApplicationContext<Application>()
+        loadKoinModules(roomTestModule)
 
-        db = Room.inMemoryDatabaseBuilder(context, SpendDatabase::class.java)
-            .allowMainThreadQueries()
-            .build()
-        dao = db.spendDao()
+//        db = Room.inMemoryDatabaseBuilder(context, SpendDatabase::class.java)
+//            .allowMainThreadQueries()
+//            .build()
+//        dao = db.spendDao()
     }
 
     @After
