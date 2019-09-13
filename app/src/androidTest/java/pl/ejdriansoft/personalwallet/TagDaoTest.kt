@@ -8,15 +8,17 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.*
 import org.junit.runner.RunWith
 import pl.ejdriansoft.personalwallet.data.SpendEntity
+import pl.ejdriansoft.personalwallet.data.TagEntity
 import pl.ejdriansoft.personalwallet.db.SpendDao
 import pl.ejdriansoft.personalwallet.db.SpendDatabase
+import pl.ejdriansoft.personalwallet.db.TagDao
 
 
 @RunWith(AndroidJUnit4::class)
-class SpendDaoTest {
+class TagDaoTest {
 
     lateinit var db: SpendDatabase
-    lateinit var dao: SpendDao
+    lateinit var dao: TagDao
 
     @Before
     fun initDependencies() {
@@ -25,7 +27,7 @@ class SpendDaoTest {
         db = Room.inMemoryDatabaseBuilder(context, SpendDatabase::class.java)
             .allowMainThreadQueries()
             .build()
-        dao = db.spendDao()
+        dao = db.tagDao()
     }
 
     @After
@@ -35,40 +37,35 @@ class SpendDaoTest {
 
     @Test
     fun testSaveAndGetAll() {
-        val spend = SpendEntity(comment = "comment", name = "name", price = 18.0)
+        val tag = TagEntity(name = "name")
 
-        dao.insert(spend)
+        dao.insert(tag)
 
         val requestedEntities = dao.getAll()
 
-        Assert.assertEquals(spend.comment, requestedEntities.first().comment)
-        Assert.assertEquals(spend.date, requestedEntities.first().date)
-        Assert.assertEquals(spend.id, requestedEntities.first().id)
+        Assert.assertEquals(tag.name, requestedEntities.first().name)
+        Assert.assertEquals(tag.id, requestedEntities.first().id)
     }
 
     @Test
     fun testSaveMultiply() {
-        val spend = SpendEntity(comment = "comment", name = "name", price = 18.0)
-        val spend1 = SpendEntity(comment = "comment", name = "name", price = 16.0)
-        val spend2 = SpendEntity(comment = "comment", name = "name", price = 18.0)
-        val list = listOf(spend, spend1, spend2)
-        list.forEach {
-            db.spendDao().insert(it)
-        }
+        val tag = TagEntity(name = "name")
+        val tag1 = TagEntity(name = "name")
+        val tag2 = TagEntity(name = "name")
+
+        val list = listOf(tag, tag1, tag2)
+        dao.insert(list)
 
         val requestedEntities = dao.getAll()
         Assert.assertEquals(list.size, requestedEntities.size)
-        Assert.assertEquals(list[1].price.toFloat(), requestedEntities[1].price.toFloat())
     }
 
     @Test(expected = SQLiteConstraintException::class)
     fun addObjectTwiceException() {
-        val spend = SpendEntity(comment = "comment", name = "name", price = 18.0)
-        val list = listOf(spend, spend)
+        val tag = TagEntity(name = "name")
+        val list = listOf(tag, tag)
 
-        list.forEach {
-            db.spendDao().insert(it)
-        }
+        dao.insert(list)
     }
 
 }

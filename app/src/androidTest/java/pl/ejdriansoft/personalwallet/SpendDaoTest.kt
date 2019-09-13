@@ -8,15 +8,22 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.*
 import org.junit.runner.RunWith
 import pl.ejdriansoft.personalwallet.data.SpendEntity
+import pl.ejdriansoft.personalwallet.data.TagEntity
+import pl.ejdriansoft.personalwallet.data.TagMapEntity
 import pl.ejdriansoft.personalwallet.db.SpendDao
 import pl.ejdriansoft.personalwallet.db.SpendDatabase
+import pl.ejdriansoft.personalwallet.db.TagDao
+import pl.ejdriansoft.personalwallet.db.TagMapDao
+import kotlin.math.abs
 
 
 @RunWith(AndroidJUnit4::class)
 class SpendDaoTest {
 
-    lateinit var db: SpendDatabase
-    lateinit var dao: SpendDao
+    private lateinit var db: SpendDatabase
+    private lateinit var spendDao: SpendDao
+    private lateinit var tagDao: TagDao
+    private lateinit var tagMapDao: TagMapDao
 
     @Before
     fun initDependencies() {
@@ -25,7 +32,9 @@ class SpendDaoTest {
         db = Room.inMemoryDatabaseBuilder(context, SpendDatabase::class.java)
             .allowMainThreadQueries()
             .build()
-        dao = db.spendDao()
+        spendDao = db.spendDao()
+        tagDao = db.tagDao()
+        tagMapDao = db.tagMapDao()
     }
 
     @After
@@ -35,13 +44,12 @@ class SpendDaoTest {
 
     @Test
     fun testSaveAndGetAll() {
-        val spend = SpendEntity(comment = "comment", category = 1)
+        val spend = SpendEntity(comment = "comment", name = "name", price = 18.0)
 
-        dao.insert(spend)
+        spendDao.insert(spend)
 
-        val requestedEntities = dao.getAll()
+        val requestedEntities = spendDao.getAll()
 
-        Assert.assertEquals(spend.category, requestedEntities.first().category)
         Assert.assertEquals(spend.comment, requestedEntities.first().comment)
         Assert.assertEquals(spend.date, requestedEntities.first().date)
         Assert.assertEquals(spend.id, requestedEntities.first().id)
@@ -49,26 +57,50 @@ class SpendDaoTest {
 
     @Test
     fun testSaveMultiply() {
-        val spend = SpendEntity(comment = "comment", category = 1)
-        val spend1 = SpendEntity(comment = "comment", category = 1)
-        val spend2 = SpendEntity(comment = "comment", category = 1)
+        val spend = SpendEntity(comment = "comment", name = "name", price = 18.0)
+        val spend1 = SpendEntity(comment = "comment", name = "name", price = 16.0)
+        val spend2 = SpendEntity(comment = "comment", name = "name", price = 18.0)
         val list = listOf(spend, spend1, spend2)
-        list.forEach {
-            db.spendDao().insert(it)
-        }
+        db.spendDao().insert(list)
 
-        val requestedEntities = dao.getAll()
+        val requestedEntities = spendDao.getAll()
         Assert.assertEquals(list.size, requestedEntities.size)
+        Assert.assertEquals(list[1].price.toFloat(), requestedEntities[1].price.toFloat())
     }
 
     @Test(expected = SQLiteConstraintException::class)
-    fun addObjectTwiceException() {
-        val spend = SpendEntity(comment = "comment", category = 1)
+    fun testaddObjectTwiceException() {
+        val spend = SpendEntity(comment = "comment", name = "name", price = 18.0)
         val list = listOf(spend, spend)
 
-        list.forEach {
-            db.spendDao().insert(it)
-        }
+        spendDao.insert(list)
+    }
+
+    @Test
+    fun testGetAllByTagName() {
+        val spendApple = SpendEntity(comment = "apple", name = "apple", price = 14.0)
+        val spendBlueBerry = SpendEntity(comment = "blueberry", name = "blueberry", price = 16.0)
+        val spendBills = SpendEntity(comment = "bills", name = "bills", price = 18.0)
+        val tagFood = TagEntity(name = "food")
+        val tagBills = TagEntity(name = "bills")
+
+        spendDao.insert(listOf(spendApple, spendBlueBerry, spendBills))
+        tagDao.insert(listOf(tagFood, tagBills))
+
+        val spends = spendDao.getAll()
+        val tags = tagDao.getAll()
+
+        val tagMapApple = TagMapEntity(spends[0].id, tags[0].id)
+        val tagMapBill = TagMapEntity(spends[2].id, tags[1].id)
+        val tagMapBlueBerry = TagMapEntity(spends[1].id, tags[0].id)
+
+        tagMapDao.addAssignedTag(listOf(tagMapApple, tagMapBill, tagMapBlueBerry))
+
+        val allFoodsSpends = spendDao.getAllByTagName(tags[0].name)
+        val allBillsSpends = spendDao.getAllByTagName(tags[1].name)
+
+        Assert.assertEquals(2, allFoodsSpends.size)
+        Assert.assertEquals(1, allBillsSpends.size)
     }
 
 }
