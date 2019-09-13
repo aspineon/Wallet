@@ -12,5 +12,5 @@ interface TagMapDao {
     fun addAssignedTag( tagMap: TagMapEntity)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun addAssignedTag( tagMap: List<TagMapEntity>)
+    fun addAssignedTag( listTags: List<TagMapEntity>)
 }

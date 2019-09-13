@@ -2,16 +2,17 @@ package pl.ejdriansoft.personalwallet.db
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import pl.ejdriansoft.personalwallet.data.SpendEntity
 
 @Dao
 interface SpendDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(entity: SpendEntity)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(entity: List<SpendEntity>)
 
     @Query("SELECT * FROM spends")

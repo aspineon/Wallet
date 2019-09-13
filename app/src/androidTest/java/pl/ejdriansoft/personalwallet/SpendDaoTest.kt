@@ -14,7 +14,6 @@ import pl.ejdriansoft.personalwallet.db.SpendDao
 import pl.ejdriansoft.personalwallet.db.SpendDatabase
 import pl.ejdriansoft.personalwallet.db.TagDao
 import pl.ejdriansoft.personalwallet.db.TagMapDao
-import kotlin.math.abs
 
 
 @RunWith(AndroidJUnit4::class)
@@ -96,8 +95,8 @@ class SpendDaoTest {
 
         tagMapDao.addAssignedTag(listOf(tagMapApple, tagMapBill, tagMapBlueBerry))
 
-        val allFoodsSpends = spendDao.getAllByTagName(tags[0].name)
-        val allBillsSpends = spendDao.getAllByTagName(tags[1].name)
+        val allFoodsSpends = spendDao.getAllByTagName(tagFood.name)
+        val allBillsSpends = spendDao.getAllByTagName(tagBills.name)
 
         Assert.assertEquals(2, allFoodsSpends.size)
         Assert.assertEquals(1, allBillsSpends.size)
