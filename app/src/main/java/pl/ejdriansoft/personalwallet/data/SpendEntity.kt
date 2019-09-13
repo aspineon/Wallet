@@ -8,7 +8,8 @@ import java.util.*
 data class SpendEntity(
     @PrimaryKey(autoGenerate = false)
     val id: String = UUID.randomUUID().toString(),
-    val comment: String,
-    val category: Int,
+    val name: String,
+    val comment: String?,
+    val price: Double,
     val date: String = Date().toString()
 )

@@ -20,9 +20,7 @@ class SpendAdapter(private val spendList: List<SpendEntity>) : RecyclerView.Adap
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = spendList[position]
-//        holder.tvName.text = item.name
-        holder.tvCategory.text = item.category.toString()
-//        holder.tvPrice.text = item.price.toString()
+        holder.tvCategory.text = item.comment
     }
 
     override fun getItemCount(): Int {
