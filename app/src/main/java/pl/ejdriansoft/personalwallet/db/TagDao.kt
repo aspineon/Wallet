@@ -1,19 +1,24 @@
 package pl.ejdriansoft.personalwallet.db
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import pl.ejdriansoft.personalwallet.data.SpendEntity
+import pl.ejdriansoft.personalwallet.data.TagEntity
 
 @Dao
-interface SpendDao {
+interface TagDao {
 
     @Insert
-    fun insert(entity: SpendEntity)
+    fun insert(tag: TagEntity)
 
-    @Query("SELECT * FROM spends")
-    fun getAll(): List<SpendEntity>
+    @Insert
+    fun insert(tag: List<TagEntity>)
 
-    @Query("SELECT s.* FROM spends s, tags t, tag_map st WHERE st.id = t.id AND (t.name IN (:tagName)) AND s.id = st.spendId GROUP BY s.id ORDER BY s.date DESC")
-    fun getAllByTagName(tagName: String): List<SpendEntity>
+    @Query("SELECT * FROM tags")
+    fun getAll(): List<TagEntity>
+
+    @Delete
+    fun delete(tag: TagEntity)
+
 }
