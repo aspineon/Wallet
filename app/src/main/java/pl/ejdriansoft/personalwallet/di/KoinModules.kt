@@ -28,7 +28,7 @@ val serviceModule = module {
 
 val networkModule = module {
 
-    //    single { provideDefaultOkhttpClient() }
+//    single { provideDefaultOkhttpClient() }
 //    single { provideRetrofit(get()) }
     single { provideApiService(get()) }
 

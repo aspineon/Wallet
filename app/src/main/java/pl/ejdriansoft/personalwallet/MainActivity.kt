@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import org.koin.android.ext.android.inject
 import pl.ejdriansoft.personalwallet.services.ServiceApi
-import rx.schedulers.Schedulers
 
 class MainActivity : AppCompatActivity() {
 

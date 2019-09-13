@@ -1,4 +1,4 @@
 package pl.ejdriansoft.personalwallet.db
 
-class SpendDatabase {
+class TagMapDao {
 }
