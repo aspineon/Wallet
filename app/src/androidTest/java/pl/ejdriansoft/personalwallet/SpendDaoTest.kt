@@ -67,12 +67,16 @@ class SpendDaoTest {
         Assert.assertEquals(list[1].price.toFloat(), requestedEntities[1].price.toFloat())
     }
 
-    @Test(expected = SQLiteConstraintException::class)
-    fun testaddObjectTwiceException() {
+    @Test
+    fun testAddObjectTwiceIgnore() {
         val spend = SpendEntity(comment = "comment", name = "name", price = 18.0)
         val list = listOf(spend, spend)
 
         spendDao.insert(list)
+
+        val requestedEntities = spendDao.getAll()
+
+        Assert.assertEquals(1, requestedEntities.size)
     }
 
     @Test

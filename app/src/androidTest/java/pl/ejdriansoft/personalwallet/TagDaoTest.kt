@@ -60,12 +60,15 @@ class TagDaoTest {
         Assert.assertEquals(list.size, requestedEntities.size)
     }
 
-    @Test(expected = SQLiteConstraintException::class)
-    fun addObjectTwiceException() {
+    @Test
+    fun testAddObjectTwiceIgnore() {
         val tag = TagEntity(name = "name")
         val list = listOf(tag, tag)
 
         dao.insert(list)
+        val requestedEntities = dao.getAll()
+
+        Assert.assertEquals(1, requestedEntities.size)
     }
 
 }
