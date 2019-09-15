@@ -1,4 +1,4 @@
-package pl.ejdriansoft.personalwallet.services
+package pl.ejdriansoft.personalwallet.services.api
 
 import okhttp3.OkHttpClient
 import pl.ejdriansoft.personalwallet.BuildConfig
@@ -19,4 +19,5 @@ fun provideRetrofit(client: OkHttpClient): Retrofit {
         .build()
 }
 
-fun provideApiService(retrofit: Retrofit): ServiceApi = retrofit.create(ServiceApi::class.java)
+fun provideApiService(retrofit: Retrofit): ServiceApi = retrofit.create(
+    ServiceApi::class.java)

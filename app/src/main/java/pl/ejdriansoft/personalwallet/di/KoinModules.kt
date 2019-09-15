@@ -1,47 +1,36 @@
 package pl.ejdriansoft.personalwallet.di
 
-import android.content.Context
 import androidx.room.Room
 import org.koin.android.ext.koin.androidApplication
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.qualifier.named
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import pl.ejdriansoft.personalwallet.db.SpendDao
 import pl.ejdriansoft.personalwallet.db.SpendDatabase
-import pl.ejdriansoft.personalwallet.db.SpendRepository
-import pl.ejdriansoft.personalwallet.db.SpendRepositoryImpl
-import pl.ejdriansoft.personalwallet.services.provideApiService
+import pl.ejdriansoft.personalwallet.services.api.provideApiService
+import pl.ejdriansoft.personalwallet.services.api.provideDefaultOkhttpClient
+import pl.ejdriansoft.personalwallet.services.api.provideRetrofit
+import pl.ejdriansoft.personalwallet.services.repositories.SpendRepository
+import pl.ejdriansoft.personalwallet.services.repositories.TagRepository
+import pl.ejdriansoft.personalwallet.ui.spends.SpendViewModel
+import pl.ejdriansoft.personalwallet.ui.tags.add.TagViewModel
 
-val databaseModule = module {
+val modules = module {
+
+    single { provideDefaultOkhttpClient() }
+    single { provideRetrofit(get()) }
+    single { provideApiService(get()) }
 
     single {
         Room.databaseBuilder(androidApplication(), SpendDatabase::class.java, "spend_db")
             .build()
     }
-
     single { get<SpendDatabase>().spendDao() }
-}
+    single { get<SpendDatabase>().tagDao() }
+    single { get<SpendDatabase>().tagMapDao() }
 
-val serviceModule = module {
-    single { SpendRepositoryImpl(get()) as SpendRepository }
-}
+    single { SpendRepository(get(), get()) }
+    single { TagRepository(get()) }
 
-val networkModule = module {
-
-//    single { provideDefaultOkhttpClient() }
-//    single { provideRetrofit(get()) }
-    single { provideApiService(get()) }
+    viewModel { TagViewModel(get()) }
+    viewModel { SpendViewModel(get()) }
 
 }
-
-val roomTestModule = module {
-
-    single {
-        Room.inMemoryDatabaseBuilder(androidApplication(), SpendDatabase::class.java)
-            .allowMainThreadQueries()
-            .build()
-    }
-    single { get<SpendDatabase>().spendDao() }
-}
-
-val testContext = listOf(roomTestModule)

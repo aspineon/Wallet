@@ -1,4 +1,4 @@
-package pl.ejdriansoft.personalwallet.adapters
+package pl.ejdriansoft.personalwallet.ui.spends.list
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,7 @@ import pl.ejdriansoft.personalwallet.R
 import pl.ejdriansoft.personalwallet.data.SpendEntity
 
 
-class SpendAdapter(private val spendList: List<SpendEntity>) : RecyclerView.Adapter<SpendAdapter.MyViewHolder>() {
+class SpendsAdapter(private val spendList: List<SpendEntity>) : RecyclerView.Adapter<SpendsAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context)

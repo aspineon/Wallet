@@ -14,10 +14,3 @@ abstract class SpendDatabase : RoomDatabase() {
     abstract fun tagDao(): TagDao
     abstract fun tagMapDao(): TagMapDao
 }
-
-
-interface SpendRepository {
-
-}
-
-class SpendRepositoryImpl(private val spendDao: SpendDao) : SpendRepository {}

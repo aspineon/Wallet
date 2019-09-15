@@ -1,19 +1,13 @@
-package pl.ejdriansoft.personalwallet
+package pl.ejdriansoft.personalwallet.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import org.koin.android.ext.android.inject
-import pl.ejdriansoft.personalwallet.services.ServiceApi
+import pl.ejdriansoft.personalwallet.R
 
 class MainActivity : AppCompatActivity() {
-
-    val api: ServiceApi by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if (BuildConfig.DEBUG) {
-            // TODO: crashliticys
-        }
     }
 }

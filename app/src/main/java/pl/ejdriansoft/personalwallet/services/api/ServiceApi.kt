@@ -1,4 +1,4 @@
-package pl.ejdriansoft.personalwallet.services
+package pl.ejdriansoft.personalwallet.services.api
 
 import retrofit2.http.GET
 import rx.Completable
