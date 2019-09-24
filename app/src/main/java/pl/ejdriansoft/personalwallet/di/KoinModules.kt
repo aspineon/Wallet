@@ -9,7 +9,9 @@ import pl.ejdriansoft.personalwallet.services.api.provideApiService
 import pl.ejdriansoft.personalwallet.services.api.provideDefaultOkhttpClient
 import pl.ejdriansoft.personalwallet.services.api.provideRetrofit
 import pl.ejdriansoft.personalwallet.services.repositories.SpendRepository
+import pl.ejdriansoft.personalwallet.services.repositories.SpendRepositoryImpl
 import pl.ejdriansoft.personalwallet.services.repositories.TagRepository
+import pl.ejdriansoft.personalwallet.services.repositories.TagRepositoryImpl
 import pl.ejdriansoft.personalwallet.ui.spends.SpendViewModel
 import pl.ejdriansoft.personalwallet.ui.tags.add.TagViewModel
 
@@ -27,8 +29,8 @@ val modules = module {
     single { get<SpendDatabase>().tagDao() }
     single { get<SpendDatabase>().tagMapDao() }
 
-    single { SpendRepository(get(), get()) }
-    single { TagRepository(get()) }
+    single { SpendRepositoryImpl(get(), get()) as SpendRepository }
+    single { TagRepositoryImpl(get()) as TagRepository}
 
     viewModel { TagViewModel(get()) }
     viewModel { SpendViewModel(get()) }

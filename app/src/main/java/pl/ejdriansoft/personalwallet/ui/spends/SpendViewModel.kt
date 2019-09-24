@@ -1,9 +1,9 @@
 package pl.ejdriansoft.personalwallet.ui.spends
 
 import androidx.lifecycle.ViewModel
-import pl.ejdriansoft.personalwallet.services.repositories.SpendRepository
+import pl.ejdriansoft.personalwallet.services.repositories.SpendRepositoryImpl
 
-class SpendViewModel(val spendRepository: SpendRepository) : ViewModel() {
+class SpendViewModel(val spendRepository: SpendRepositoryImpl) : ViewModel() {
 
 
 }
