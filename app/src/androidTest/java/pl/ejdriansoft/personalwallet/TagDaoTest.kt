@@ -36,7 +36,7 @@ class TagDaoTest {
     }
 
     @Test
-    fun testSaveAndGetAll() {
+    fun saveAndGetAll() {
         val tag = TagEntity(name = "name")
 
         dao.insert(tag)
@@ -48,7 +48,7 @@ class TagDaoTest {
     }
 
     @Test
-    fun testSaveMultiply() {
+    fun saveMultiply() {
         val tag = TagEntity(name = "name")
         val tag1 = TagEntity(name = "name")
         val tag2 = TagEntity(name = "name")
@@ -61,7 +61,7 @@ class TagDaoTest {
     }
 
     @Test
-    fun testAddObjectTwiceIgnore() {
+    fun addObjectTwiceIgnore() {
         val tag = TagEntity(name = "name")
         val list = listOf(tag, tag)
 

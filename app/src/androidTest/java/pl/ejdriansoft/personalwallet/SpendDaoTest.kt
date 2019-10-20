@@ -42,7 +42,7 @@ class SpendDaoTest {
     }
 
     @Test
-    fun testSaveAndGetAll() {
+    fun saveAndGetAll() {
         val spend = SpendEntity(comment = "comment", name = "name", price = 18.0)
 
         spendDao.insert(spend)
@@ -55,7 +55,7 @@ class SpendDaoTest {
     }
 
     @Test
-    fun testSaveMultiply() {
+    fun saveMultiply() {
         val spend = SpendEntity(comment = "comment", name = "name", price = 18.0)
         val spend1 = SpendEntity(comment = "comment", name = "name", price = 16.0)
         val spend2 = SpendEntity(comment = "comment", name = "name", price = 18.0)
@@ -68,7 +68,7 @@ class SpendDaoTest {
     }
 
     @Test
-    fun testAddObjectTwiceIgnore() {
+    fun addObjectTwiceIgnore() {
         val spend = SpendEntity(comment = "comment", name = "name", price = 18.0)
         val list = listOf(spend, spend)
 
@@ -80,7 +80,7 @@ class SpendDaoTest {
     }
 
     @Test
-    fun testGetAllByTagName() {
+    fun getAllByTagName() {
         val spendApple = SpendEntity(comment = "apple", name = "apple", price = 14.0)
         val spendBlueBerry = SpendEntity(comment = "blueberry", name = "blueberry", price = 16.0)
         val spendBills = SpendEntity(comment = "bills", name = "bills", price = 18.0)
