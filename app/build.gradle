@@ -29,12 +29,21 @@ android {
     }
     buildTypes {
         debug {
+            testCoverageEnabled true
+            minifyEnabled false
             buildConfigField "String", "MY_CLOUD_API", '"http://12.3.456.789:123"'
         }
         release {
             buildConfigField "String", "MY_CLOUD_API", '"http://12.3.456.789"'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    flavorDimensions "version"
+    productFlavors {
+        dev {
+        }
+        prod {
         }
     }
 }
